@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LocalTime } from "@/components/LocalTime";
 import { redirect, notFound } from "next/navigation";
 import { Section } from "@/components/Section";
 import { createClient } from "@/lib/supabase/server";
@@ -6,14 +7,6 @@ import { sendMessage } from "../actions";
 
 export const metadata = { title: "メッセージ / Messages" };
 
-function timeLabel(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-  return `${m}/${day} ${hh}:${mm}`;
-}
 
 export default async function ThreadPage({
   params,
@@ -79,7 +72,7 @@ export default async function ThreadPage({
                     mine ? "text-bg/70" : "text-muted"
                   }`}
                 >
-                  {timeLabel(m.created_at)}
+                  <LocalTime iso={m.created_at} mode="datetime" />
                 </p>
               </div>
             </div>

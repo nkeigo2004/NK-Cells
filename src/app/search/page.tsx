@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "検索 / Search" };
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 export default async function SearchPage({
   searchParams,
@@ -168,7 +163,7 @@ export default async function SearchPage({
                         >
                           @{a?.username || nm}
                         </Link>
-                        <span>{ymd(p.created_at)}</span>
+                        <span><LocalTime iso={p.created_at} mode="date" /></span>
                       </div>
                       {p.content && (
                         <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-fg">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Bi } from "@/components/Bi";
@@ -6,12 +7,6 @@ import { createClient } from "@/lib/supabase/server";
 import { getLang, pick } from "@/lib/lang";
 import { ui } from "@/content/ui";
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 function tagList(tags: string) {
   return tags
@@ -55,7 +50,7 @@ export default async function NotePage({
         {pick(ui.backToNotes, lang)}
       </Link>
 
-      <p className="mt-6 font-mono text-xs text-muted">{ymd(note.created_at)}</p>
+      <p className="mt-6 font-mono text-xs text-muted"><LocalTime iso={note.created_at} mode="date" /></p>
       <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
         {note.title_ja}
         {note.title_en && (

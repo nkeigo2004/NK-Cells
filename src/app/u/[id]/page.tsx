@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { cellOfDay } from "@/lib/cell";
@@ -18,12 +19,6 @@ export async function generateMetadata({
   return { title: p?.display_name ? `@${p.display_name}` : "Profile" };
 }
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 export default async function PublicProfilePage({
   params,
@@ -287,7 +282,7 @@ export default async function PublicProfilePage({
                 className="rounded-lg border border-line bg-surface/20 p-4"
               >
                 <p className="font-mono text-[11px] text-muted">
-                  {ymd(p.created_at)}
+                  <LocalTime iso={p.created_at} mode="date" />
                 </p>
                 {p.content && (
                   <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-fg">

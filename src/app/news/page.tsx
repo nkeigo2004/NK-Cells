@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import { Section } from "@/components/Section";
 import { Bi } from "@/components/Bi";
 import { createClient } from "@/lib/supabase/server";
@@ -7,12 +8,6 @@ import { createNews, deleteNews, togglePin } from "./actions";
 
 export const metadata: Metadata = { title: "News" };
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 export default async function NewsPage({
   searchParams,
@@ -123,7 +118,7 @@ export default async function NewsPage({
             <span className="absolute -left-[5px] mt-1.5 h-2.5 w-2.5 rounded-full border border-bg bg-accent" />
             <div className="flex flex-wrap items-center gap-2">
               <time className="font-mono text-xs text-muted">
-                {ymd(item.created_at)}
+                <LocalTime iso={item.created_at} mode="date" />
               </time>
               {item.pinned && (
                 <span className="rounded bg-accent/15 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">

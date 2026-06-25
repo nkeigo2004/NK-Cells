@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { RealtimeRefresh } from "@/components/RealtimeRefresh";
@@ -20,14 +21,6 @@ import {
 
 export const metadata: Metadata = { title: "Community" };
 
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  return (
-    d.toLocaleDateString("ja-JP", { month: "2-digit", day: "2-digit" }) +
-    " " +
-    d.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
-  );
-}
 
 export default async function CommunityPage({
   searchParams,
@@ -286,7 +279,7 @@ export default async function CommunityPage({
                   >
                     @{nameOf(entry.reposter)}
                   </Link>
-                  <span>がリポスト ・ {formatDate(entry.ts)}</span>
+                  <span>がリポスト ・ <LocalTime iso={entry.ts} mode="datetime" /></span>
                 </p>
                 <div className="rounded-md border border-line bg-bg/30 p-3">
                   <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted">
@@ -310,7 +303,7 @@ export default async function CommunityPage({
                         @{nameOf(o.user_id, o.author)}
                       </span>
                     </Link>{" "}
-                    ・ {formatDate(o.created_at)}
+                    ・ <LocalTime iso={o.created_at} mode="datetime" />
                   </div>
                   {o.content && (
                     <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-fg">
@@ -362,7 +355,7 @@ export default async function CommunityPage({
                     )}
                     <span className="text-accent">@{nameOf(p.user_id, p.author)}</span>
                   </Link>{" "}
-                  ・ {formatDate(p.created_at)}
+                  ・ <LocalTime iso={p.created_at} mode="datetime" />
                 </span>
                 {user?.id === p.user_id && (
                   <form action={deletePost}>
@@ -476,7 +469,7 @@ export default async function CommunityPage({
                           >
                             @{nameOf(c.user_id, c.author)}
                           </Link>{" "}
-                          ・ {formatDate(c.created_at)}
+                          ・ <LocalTime iso={c.created_at} mode="datetime" />
                         </span>
                         {user?.id === c.user_id && (
                           <form action={deleteComment}>

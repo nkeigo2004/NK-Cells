@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LocalTime } from "@/components/LocalTime";
 import { site } from "@/content/site";
 import { Section } from "@/components/Section";
 import { createClient } from "@/lib/supabase/server";
@@ -52,12 +53,6 @@ const groups = [
   },
 ];
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -101,7 +96,7 @@ export default async function HomePage() {
           <ul className="divide-y divide-line border-y border-line">
             {latestNews.map((item) => (
               <li key={item.id} className="py-5">
-                <p className="font-mono text-xs text-muted">{ymd(item.created_at)}</p>
+                <p className="font-mono text-xs text-muted"><LocalTime iso={item.created_at} mode="date" /></p>
                 <h3 className="mt-1 font-display text-base font-medium tracking-tight">
                   <Bi v={{ ja: item.title_ja, en: item.title_en }} enClass="mt-0.5 block text-sm font-normal text-muted" />
                 </h3>
@@ -185,7 +180,7 @@ export default async function HomePage() {
             {latestNotes.map((n) => (
               <li key={n.id} className="py-5">
                 <Link href={`/notes/${n.slug}`} className="group block">
-                  <p className="font-mono text-xs text-muted">{ymd(n.created_at)}</p>
+                  <p className="font-mono text-xs text-muted"><LocalTime iso={n.created_at} mode="date" /></p>
                   <h3 className="mt-1 font-display text-base font-medium tracking-tight group-hover:text-fg">
                     <Bi v={{ ja: n.title_ja, en: n.title_en }} enClass="mt-0.5 block text-sm font-normal text-muted" />
                   </h3>

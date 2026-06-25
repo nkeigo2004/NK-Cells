@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Section } from "@/components/Section";
@@ -7,14 +8,6 @@ import { markAllRead } from "./actions";
 
 export const metadata: Metadata = { title: "通知 / Notifications" };
 
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  return (
-    d.toLocaleDateString("ja-JP", { month: "2-digit", day: "2-digit" }) +
-    " " +
-    d.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
-  );
-}
 
 export default async function NotificationsPage() {
   const supabase = await createClient();
@@ -70,7 +63,7 @@ export default async function NotificationsPage() {
                 ? " さんがあなたにメンションしました"
                 : " からの通知"}
             <span className="ml-2 font-mono text-[11px] text-muted">
-              {formatDate(n.created_at)}
+              <LocalTime iso={n.created_at} mode="datetime" />
             </span>
           </li>
         ))}

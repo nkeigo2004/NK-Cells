@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import { Section } from "@/components/Section";
 import { Bi } from "@/components/Bi";
 import { RichComposer } from "@/components/RichComposer";
@@ -19,14 +20,6 @@ const kindLabel: Record<string, string> = {
   talk: "Talk",
 };
 
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  return (
-    d.toLocaleDateString("ja-JP", { month: "2-digit", day: "2-digit" }) +
-    " " +
-    d.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
-  );
-}
 
 export default async function ResearchPage({
   searchParams,
@@ -196,7 +189,7 @@ export default async function ResearchPage({
                   <div key={c.id} className="mb-2 text-sm">
                     <div className="flex items-center justify-between font-mono text-[10px] text-muted">
                       <span>
-                        <span className="text-fg/70">@{nameOf(c.user_id, c.author)}</span> ・ {formatDate(c.created_at)}
+                        <span className="text-fg/70">@{nameOf(c.user_id, c.author)}</span> ・ <LocalTime iso={c.created_at} mode="datetime" />
                       </span>
                       {user?.id === c.user_id && (
                         <form action={deleteWorkComment}>

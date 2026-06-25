@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { RichComposer } from "@/components/RichComposer";
@@ -14,18 +15,6 @@ export async function generateMetadata({
   return { title: `#${decodeURIComponent(params.tag)}` };
 }
 
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  const date = d.toLocaleDateString("ja-JP", {
-    month: "2-digit",
-    day: "2-digit",
-  });
-  const time = d.toLocaleTimeString("ja-JP", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  return `${date} ${time}`;
-}
 
 export default async function TagPage({
   params,
@@ -210,7 +199,7 @@ export default async function TagPage({
                     <span className="text-accent">@{nm}</span>
                   </Link>
                   <span className="flex items-center gap-2">
-                    {formatDate(p.created_at)}
+                    <LocalTime iso={p.created_at} mode="datetime" />
                     {user?.id === p.user_id && (
                       <form action={deleteTagPost}>
                         <input type="hidden" name="id" value={p.id} />

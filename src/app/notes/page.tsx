@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalTime } from "@/components/LocalTime";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { Bi } from "@/components/Bi";
@@ -8,12 +9,6 @@ import { createNote, editNote, deleteNote } from "./actions";
 
 export const metadata: Metadata = { title: "Notes" };
 
-function ymd(iso: string) {
-  const d = new Date(iso);
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-}
 
 function tagList(tags: string) {
   return tags
@@ -99,7 +94,7 @@ export default async function NotesPage({
         {notes?.map((n) => (
           <li key={n.id} className="py-6">
             <Link href={`/notes/${n.slug}`} className="group block transition-colors hover:bg-surface/30">
-              <p className="font-mono text-xs text-muted">{ymd(n.created_at)}</p>
+              <p className="font-mono text-xs text-muted"><LocalTime iso={n.created_at} mode="date" /></p>
               <h3 className="mt-1.5 font-display text-lg font-medium tracking-tight group-hover:text-fg">
                 <Bi v={{ ja: n.title_ja, en: n.title_en }} enClass="mt-0.5 block text-sm font-normal text-muted" />
                 <span className="ml-1 text-muted group-hover:text-accent">→</span>
